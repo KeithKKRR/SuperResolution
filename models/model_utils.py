@@ -20,6 +20,12 @@ def initialize_model_and_optimizer(args):
             {'params': model.conv3.parameters(), 'lr': args["learning_rate"] * 0.1}
         ], lr=args["learning_rate"])
 
+    if args["use_pretrained"]:
+        model.load_state_dict(torch.load(args["pretrained_path"]))
+
+    if args["use_checkpoint"]:
+        model.load_state_dict(torch.load(args["checkpoint_path"]))
+
     return model.to(device()), optimizer
 
 
