@@ -13,7 +13,7 @@ checkpoint_root = "checkpoint"
 def initialize_model_and_optimizer(args):
     assert (args["model"] in model_list)
     if args["model"] == "SRCNN":
-        model = SRCNN(args)
+        model = SRCNN()
         optimizer = optim.Adam([
             {'params': model.conv1.parameters()},
             {'params': model.conv2.parameters()},
