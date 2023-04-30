@@ -18,9 +18,10 @@ class CelebA_HQ_Dataset(Dataset):
 
     def __getitem__(self, idx):
         LR_img_path = os.path.join("data", "CelebA-HQ-" + str(self.LR_res), self.img_names[idx])
-        LR_img_tensor = self.transform(Image.open(LR_img_path).convert("RGB"))
+        LR_img_tensor = self.transform(Image.open(LR_img_path).convert("RGB").resize((self.HR_res, self.HR_res), Image.BICUBIC))
         HR_img_path = os.path.join("data", "CelebA-HQ-" + str(self.HR_res), self.img_names[idx])
         HR_img_tensor = self.transform(Image.open(HR_img_path).convert("RGB"))
+
         return LR_img_tensor, HR_img_tensor
 
     def __len__(self):
@@ -28,8 +29,8 @@ class CelebA_HQ_Dataset(Dataset):
 
 
 # test code
-# train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256)
-# train_dataloader = DataLoader(dataset=train_dataset, batch_size=4, shuffle=False)
-# for index, (LR_img, HR_img) in enumerate(train_dataloader):
-#     print(LR_img.shape, HR_img.shape)
-#     break
+train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256)
+train_dataloader = DataLoader(dataset=train_dataset, batch_size=4, shuffle=False)
+for index, (LR_img, HR_img) in enumerate(train_dataloader):
+    print(LR_img.shape, HR_img.shape)
+    break

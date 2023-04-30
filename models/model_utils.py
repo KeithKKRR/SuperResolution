@@ -1,0 +1,27 @@
+import os.path
+
+import torch
+from torch import optim
+
+from models.SRCNN import SRCNN
+from utils.device import device
+
+model_list = ["SRCNN"]
+checkpoint_root = "checkpoint"
+
+
+def initialize_model_and_optimizer(args):
+    assert (args["model"] in model_list)
+    if args["model"] == "SRCNN":
+        model = SRCNN(args)
+        optimizer = optim.Adam([
+            {'params': model.conv1.parameters()},
+            {'params': model.conv2.parameters()},
+            {'params': model.conv3.parameters(), 'lr': args["learning_rate"] * 0.1}
+        ], lr=args["learning_rate"])
+
+    return model.to(device()), optimizer
+
+
+def save_best_model(model_name, best_weights):
+    torch.save(best_weights, os.path.join(checkpoint_root, model_name + ".pth"))
