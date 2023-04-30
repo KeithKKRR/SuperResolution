@@ -66,9 +66,9 @@ if __name__ == "__main__":
 
                 epoch_psnr.update(calculate_PSNR(SR_img, HR_img), len(LR_img))
             print('eval psnr: {:.2f}'.format(epoch_psnr.avg))
-            
+
             if epoch_psnr.avg > best_psnr:
                 best_psnr = epoch_psnr.avg
                 best_weights = copy.deepcopy(model.state_dict())
-                save_best_model(args["model_name"], best_weights)
+                save_best_model(args["model"], best_weights)
                 print('best epoch: {}, psnr: {:.2f}'.format(epoch, best_psnr))

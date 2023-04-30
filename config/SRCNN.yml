@@ -5,8 +5,8 @@ conv1_kernel_size: 9
 conv2_kernel_size: 5
 conv3_kernel_size: 5
 
-max_epoch: 100
-batch_size: 16
+max_epoch: 10
+batch_size: 64
 learning_rate: 0.001
 loss_fn: "MSE"
 
