@@ -29,8 +29,8 @@ class CelebA_HQ_Dataset(Dataset):
 
 
 # test code
-train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256)
-train_dataloader = DataLoader(dataset=train_dataset, batch_size=4, shuffle=False)
-for index, (LR_img, HR_img) in enumerate(train_dataloader):
-    print(LR_img.shape, HR_img.shape)
-    break
+# train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256)
+# train_dataloader = DataLoader(dataset=train_dataset, batch_size=4, shuffle=False)
+# for index, (LR_img, HR_img) in enumerate(train_dataloader):
+#     print(LR_img.shape, HR_img.shape)
+#     break
