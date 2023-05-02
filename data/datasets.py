@@ -6,10 +6,11 @@ from torchvision import transforms
 
 
 class CelebA_HQ_Dataset(Dataset):
-    def __init__(self, data_file, LR_res, HR_res):
+    def __init__(self, data_file, LR_res, HR_res, args):
         super(CelebA_HQ_Dataset, self).__init__()
         self.LR_res = LR_res
         self.HR_res = HR_res
+        self.args = args
         self.transform = transforms.ToTensor()
         with open(data_file, "r", encoding="utf-8") as f:
             self.img_names = f.readlines()
@@ -18,7 +19,11 @@ class CelebA_HQ_Dataset(Dataset):
 
     def __getitem__(self, idx):
         LR_img_path = os.path.join("data", "CelebA-HQ-" + str(self.LR_res), self.img_names[idx])
-        LR_img_tensor = self.transform(Image.open(LR_img_path).convert("RGB").resize((self.HR_res, self.HR_res), Image.BICUBIC))
+        if self.args["pre_upsample"]:
+            LR_img_tensor = self.transform(
+                Image.open(LR_img_path).convert("RGB").resize((self.HR_res, self.HR_res), Image.BICUBIC))
+        else:
+            LR_img_tensor = self.transform(Image.open(LR_img_path).convert("RGB"))
         HR_img_path = os.path.join("data", "CelebA-HQ-" + str(self.HR_res), self.img_names[idx])
         HR_img_tensor = self.transform(Image.open(HR_img_path).convert("RGB"))
 

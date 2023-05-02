@@ -1,12 +1,15 @@
 input_size: 64
 output_size: 256
 
+pre_upsample: true
 conv1_kernel_size: 9
+conv1_kernel_num: 64
 conv2_kernel_size: 5
+conv2_kernel_num: 32
 conv3_kernel_size: 5
 
-max_epoch: 10
-batch_size: 64
+max_epoch: 400
+batch_size: 16
 learning_rate: 0.0001
 loss_fn: "MSE"
 

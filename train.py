@@ -24,9 +24,9 @@ if __name__ == "__main__":
     args.update(cfg)
 
     # dataset and dataloader
-    train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256)
+    train_dataset = CelebA_HQ_Dataset("data/train_data.txt", 64, 256, args)
     train_dataloader = DataLoader(dataset=train_dataset, batch_size=args["batch_size"], shuffle=True)
-    val_dataset = CelebA_HQ_Dataset("data/val_data.txt", 64, 256)
+    val_dataset = CelebA_HQ_Dataset("data/val_data.txt", 64, 256, args)
     val_dataloader = DataLoader(dataset=val_dataset, batch_size=args["batch_size"])
 
     # model and optimizer definition

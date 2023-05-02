@@ -2,11 +2,14 @@ from torch import nn
 
 
 class SRCNN(nn.Module):
-    def __init__(self):
+    def __init__(self, args):
         super(SRCNN, self).__init__()
-        self.conv1 = nn.Conv2d(3, 64, kernel_size=9, padding=9 // 2)
-        self.conv2 = nn.Conv2d(64, 32, kernel_size=5, padding=5 // 2)
-        self.conv3 = nn.Conv2d(32, 3, kernel_size=5, padding=5 // 2)
+        self.conv1 = nn.Conv2d(3, args["conv1_kernel_num"], kernel_size=args["conv1_kernel_size"],
+                               padding=args["conv1_kernel_size"] // 2)
+        self.conv2 = nn.Conv2d(args["conv1_kernel_num"], args["conv2_kernel_num"],
+                               kernel_size=args["conv2_kernel_size"], padding=args["conv2_kernel_size"] // 2)
+        self.conv3 = nn.Conv2d(args["conv2_kernel_num"], 3, kernel_size=args["conv3_kernel_size"],
+                               padding=args["conv3_kernel_size"] // 2)
         self.relu = nn.ReLU(inplace=True)
 
     def forward(self, x):

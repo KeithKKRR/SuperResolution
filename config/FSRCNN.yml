@@ -1,0 +1,15 @@
+input_size: 64
+output_size: 256
+
+pre_upsample: false
+
+
+max_epoch: 50
+batch_size: 16
+learning_rate: 0.001
+loss_fn: "MSE"
+
+use_pretrained: false
+pretrained_path: ""
+use_checkpoint: false
+checkpoint_path: "checkpoint/FSRCNN.pth"
