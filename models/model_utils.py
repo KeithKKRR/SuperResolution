@@ -3,12 +3,13 @@ import os.path
 import torch
 from torch import optim
 
+from models.DRRN import DRRN
 from models.ESPCN import ESPCN
 from models.FSRCNN import FSRCNN
 from models.SRCNN import SRCNN
 from utils.device import device
 
-model_list = ["SRCNN", "FSRCNN", "ESPCN"]
+model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN"]
 checkpoint_root = "checkpoint"
 
 
@@ -36,6 +37,10 @@ def initialize_model_and_optimizer(args):
             {'params': model.first_part.parameters()},
             {'params': model.last_part.parameters(), 'lr': args["learning_rate"] * 0.1}
         ], lr=args["learning_rate"])
+    elif args['model'] == "DRRN":
+        model = DRRN(args=args)
+        optimizer = optim.SGD(model.parameters(), lr=args["learning_rate"], momentum=args["momentum"],
+                              weight_decay=args["weight_decay"])
 
     if args["use_pretrained"]:
         model.load_state_dict(torch.load(args["pretrained_path"]))
