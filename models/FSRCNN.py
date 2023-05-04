@@ -6,16 +6,17 @@ class FSRCNN(nn.Module):
     def __init__(self, num_channels=3, args=None):
         super(FSRCNN, self).__init__()
         self.first_part = nn.Sequential(
-            nn.Conv2d(num_channels, args["d"], kernel_size=5, padding=5 // 2),
-            nn.PReLU(args["d"])
+            nn.Conv2d(num_channels, args['d'], kernel_size=5, padding=5 // 2),
+            nn.PReLU(args['d'])
         )
-        self.mid_part = [nn.Conv2d(args["d"], args["s"], kernel_size=1), nn.PReLU(args["d"])]
-        for _ in range(args["m"]):
-            self.mid_part.extend([nn.Conv2d(args["d"], args["d"], kernel_size=3, padding=3 // 2), nn.PReLU(args["d"])])
-        self.mid_part.extend([nn.Conv2d(args["d"], args["d"], kernel_size=1), nn.PReLU(args["d"])])
+        self.mid_part = [nn.Conv2d(args['d'], args['s'], kernel_size=1), nn.PReLU(args['s'])]
+        for _ in range(args['m']):
+            self.mid_part.extend([nn.Conv2d(args['s'], args['s'], kernel_size=3, padding=3 // 2), nn.PReLU(args['s'])])
+        self.mid_part.extend([nn.Conv2d(args['s'], args['d'], kernel_size=1), nn.PReLU(args['d'])])
         self.mid_part = nn.Sequential(*self.mid_part)
-        self.last_part = nn.ConvTranspose2d(args["d"], num_channels, kernel_size=9, stride=args["scale_factor"],
-                                            padding=9 // 2, output_padding=args["scale_factor"] - 1)
+        self.last_part = nn.ConvTranspose2d(args['d'], num_channels, kernel_size=9, stride=args['scale_factor'],
+                                            padding=9 // 2,
+                                            output_padding=args["scale_factor"] - 1)
 
         self._initialize_weights()
 
