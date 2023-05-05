@@ -31,10 +31,10 @@ if __name__ == "__main__":
         LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
         with torch.no_grad():
             SR_img = model(LR_img)
-            # LR_img = transforms.ToPILImage()(LR_img[0])
+            LR_img = transforms.ToPILImage()(LR_img[0])
             SR_img = transforms.ToPILImage()(SR_img[0])
             # HR_img = transforms.ToPILImage()(HR_img[0])
-            # LR_img.save("output/" + args['model'] + "_LR.png")
+            LR_img.save("output/" + args['model'] + "_LR.png")
             SR_img.save("output/" + args['model'] + "_SR.png")
             # HR_img.save("output/" + args['model'] + "_HR.png")
         break

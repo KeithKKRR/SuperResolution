@@ -4,12 +4,12 @@ scale_factor: 4
 
 pre_upsample: false
 
-max_epoch: 100
-batch_size: 16
+max_epoch: 200
+batch_size: 32
 learning_rate: 0.0005
-loss_fn: "L1"
+loss_fn: "MSE"
 
-use_pretrained: true
+use_pretrained: false
 pretrained_path: "pretrained/RFDN.pth"
-use_checkpoint: false
+use_checkpoint: true
 checkpoint_path: "checkpoint/RFDN.pth"
