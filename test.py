@@ -4,6 +4,7 @@ import torch
 import yaml
 from torch.utils.data import DataLoader
 from torchvision import transforms
+from tqdm import tqdm
 
 from data.datasets import CelebA_HQ_Dataset
 from models.model_utils import initialize_model_and_optimizer
@@ -27,13 +28,17 @@ if __name__ == "__main__":
 
     model, _ = initialize_model_and_optimizer(args)
     model.load_state_dict(torch.load(args["checkpoint_path"]))
+    model.eval()
     psnr = AverageMeter()
-    for (LR_img, HR_img) in test_dataloader:
-        LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
-        with torch.no_grad():
-            SR_img = model(LR_img)
-            SR_img = SR_img.clamp(0, 255)
-        psnr.update(calculate_PSNR(SR_img, HR_img), len(LR_img))
+    with tqdm(total=len(test_dataset)-len(test_dataset)%4) as t:
+        t.set_description(args['model'])
+        for (LR_img, HR_img) in test_dataloader:
+            LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
+            with torch.no_grad():
+                SR_img = model(LR_img)
+                SR_img = SR_img.clamp(0, 255)
+            psnr.update(calculate_PSNR(SR_img, HR_img), len(LR_img))
+            t.update(len(LR_img))
 
     print('Test PSNR: {:.2f}'.format(psnr.avg))
 

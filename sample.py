@@ -8,8 +8,6 @@ from torchvision import transforms
 from data.datasets import CelebA_HQ_Dataset
 from models.model_utils import initialize_model_and_optimizer
 from utils.device import device
-from utils.logger import AverageMeter
-from utils.metrics import calculate_PSNR
 
 if __name__ == "__main__":
     parser = argparse.ArgumentParser()
