@@ -3,7 +3,7 @@ output_size: 256
 scale_factor: 4
 
 pre_upsample: true
-conv_num: 128
+conv_num: 192
 
 max_epoch: 100
 batch_size: 4
