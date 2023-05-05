@@ -23,25 +23,20 @@ if __name__ == "__main__":
 
     # dataset and dataloader
     test_dataset = CelebA_HQ_Dataset("data/test_data.txt", 64, 256, args)
-    test_dataloader = DataLoader(dataset=test_dataset, batch_size=4, shuffle=False)
+    test_dataloader = DataLoader(dataset=test_dataset, batch_size=1, shuffle=False)
 
     model, _ = initialize_model_and_optimizer(args)
     model.load_state_dict(torch.load(args["checkpoint_path"]))
-    psnr = AverageMeter()
+
+    # Sample
     for (LR_img, HR_img) in test_dataloader:
         LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
         with torch.no_grad():
             SR_img = model(LR_img)
-            SR_img = SR_img.clamp(0, 255)
-        psnr.update(calculate_PSNR(SR_img, HR_img), len(LR_img))
-
-    print('Test PSNR: {:.2f}'.format(psnr.avg))
-
-    # Sample
-    # for (LR_img, HR_img) in test_dataloader:
-    #     SR_img = model(LR_img)
-    #     SR_img = transforms.ToPILImage()(SR_img[0])
-    #     HR_img = transforms.ToPILImage()(HR_img[0])
-    #     SR_img.save("output/test_SR.png")
-    #     HR_img.save("output/test_GT.png")
-    #     break
+            LR_img = transforms.ToPILImage()(LR_img[0])
+            SR_img = transforms.ToPILImage()(SR_img[0])
+            # HR_img = transforms.ToPILImage()(HR_img[0])
+            LR_img.save("output/" + args['model'] + "_LR.png")
+            SR_img.save("output/" + args['model'] + "_SR.png")
+            # HR_img.save("output/" + args['model'] + "_HR.png")
+        break
