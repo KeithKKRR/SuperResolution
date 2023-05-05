@@ -4,9 +4,9 @@ scale_factor: 4
 
 pre_upsample: false
 conv1_size: 5
-conv1_num: 64
+conv1_num: 256
 conv2_size: 3
-conv2_num: 32
+conv2_num: 64
 
 max_epoch: 400
 batch_size: 64
