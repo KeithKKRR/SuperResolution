@@ -74,7 +74,8 @@ class MAB(nn.Module):
                                      groups=num_features)
 
     def forward(self, x):
-        x = self.conv00(self.conv01(x))
+        x = self.conv01(x)
+        x = self.conv00(x)
         rc = self.reduce_channels(x)
         rs = self.reduce_spatial_size(rc)
         pool = self.pool(rs)
@@ -117,7 +118,7 @@ class FFG(nn.Module):
 class Tail(nn.Module):
     def __init__(self, args, scale, num_features, wn):
         super(Tail, self).__init__()
-        out_features = scale * scale * args.n_colors
+        out_features = scale * scale * 3
         self.tail_k3 = wn(nn.Conv2d(in_channels=num_features, out_channels=out_features, kernel_size=3, padding=1))
         self.tail_k5 = wn(nn.Conv2d(in_channels=num_features, out_channels=out_features, kernel_size=5, padding=2))
         self.pixelshuffle = nn.PixelShuffle(scale)
@@ -136,6 +137,7 @@ class MAFFSRN(nn.Module):
         super(MAFFSRN, self).__init__()
         wn = lambda x: torch.nn.utils.weight_norm(x)
 
+        self.scale = args['scale_factor']
         self.rgb_mean = torch.autograd.Variable(torch.FloatTensor([0.4488, 0.4371, 0.4040])).view([1, 3, 1, 1])
 
         # define head module
@@ -144,10 +146,10 @@ class MAFFSRN(nn.Module):
         # define body module
         body = []
         for i in range(args["num_FFGs"]):
-            body.append(FFG(args["num_FFGs"], wn=wn))
+            body.append(FFG(args["num_features"], wn=wn))
 
         # define tail module
-        tail = Tail(args, args["scale"][0], args["num_features"], wn)
+        tail = Tail(args, self.scale, args["num_features"], wn)
 
         # make object members
         self.head = nn.Sequential(*head)
@@ -159,7 +161,7 @@ class MAFFSRN(nn.Module):
         x = self.head(x)
         x = self.body(x)
         x = self.tail(x)
-        return x + torch.nn.functional.upsample(x0, scale_factor=self.scale[0], mode='bicubic')
+        return x + torch.nn.functional.upsample(x0, scale_factor=self.scale, mode='bicubic')
 
     def load_state_dict(self, state_dict, strict=True):
         own_state = self.state_dict()
