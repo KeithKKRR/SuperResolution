@@ -7,11 +7,11 @@ num_features: 32
 num_FFGs: 8
 
 max_epoch: 100
-batch_size: 4
+batch_size: 16
 learning_rate: 0.0002
 loss_fn: "L1"
 
 use_pretrained: false
 pretrained_path: ""
-use_checkpoint: false
+use_checkpoint: true
 checkpoint_path: "checkpoint/MAFFSRN.pth"
