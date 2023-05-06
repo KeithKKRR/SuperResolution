@@ -3,6 +3,7 @@ import os.path
 import torch
 from torch import optim
 
+from models.BSRN import BSRN
 from models.DRRN import DRRN
 from models.ESPCN import ESPCN
 from models.FSRCNN import FSRCNN
@@ -11,7 +12,7 @@ from models.RFDN import RFDN
 from models.SRCNN import SRCNN
 from utils.device import device
 
-model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN", "RFDN", "MAFFSRN"]
+model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN", "RFDN", "MAFFSRN", "BSRN"]
 checkpoint_root = "checkpoint"
 
 
@@ -46,6 +47,9 @@ def initialize_model_and_optimizer(args):
         optimizer = optim.Adam(params=model.parameters(), betas=(0.9, 0.999), eps=1e-8, lr=args['learning_rate'])
     elif args['model'] == "MAFFSRN":
         model = MAFFSRN(args)
+        optimizer = optim.Adam(params=model.parameters(), betas=(0.9, 0.999), eps=1e-8, lr=args['learning_rate'])
+    elif args['model'] == "BSRN":
+        model = BSRN()
         optimizer = optim.Adam(params=model.parameters(), betas=(0.9, 0.999), eps=1e-8, lr=args['learning_rate'])
 
     if args["use_pretrained"]:
