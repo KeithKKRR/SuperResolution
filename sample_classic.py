@@ -14,7 +14,7 @@ if __name__ == "__main__":
 
     model_list = ["BICUBIC", "BILINEAR", "NEAREST"]
 
-    sample_index = 2
+    sample_index = 8
     for model_name in model_list:
         cnt = 0
         for (LR_img, _) in test_dataloader:

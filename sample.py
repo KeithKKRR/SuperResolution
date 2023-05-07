@@ -26,7 +26,7 @@ if __name__ == "__main__":
     model, _ = initialize_model_and_optimizer(args)
     model.load_state_dict(torch.load(args["checkpoint_path"]))
 
-    sample_index = 2
+    sample_index = 8
     cnt = 0
     # Sample
     for (LR_img, HR_img) in test_dataloader:
@@ -36,10 +36,10 @@ if __name__ == "__main__":
                 SR_img = model(LR_img)
                 # LR_img = transforms.ToPILImage()(LR_img[0])
                 SR_img = transforms.ToPILImage()(SR_img[0])
-                # HR_img = transforms.ToPILImage()(HR_img[0])
+                HR_img = transforms.ToPILImage()(HR_img[0])
                 # LR_img.save("output0/" + args['model'] + "_LR.png")
                 SR_img.save("output" + str(sample_index) + "/" + args['model'] + "_SR.png")
-                # HR_img.save("output" + str(sample_index) + "/GT.png")
+                HR_img.save("output" + str(sample_index) + "/GT.png")
             break
 
         cnt += 1
