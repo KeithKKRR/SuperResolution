@@ -26,15 +26,20 @@ if __name__ == "__main__":
     model, _ = initialize_model_and_optimizer(args)
     model.load_state_dict(torch.load(args["checkpoint_path"]))
 
+    sample_index = 2
+    cnt = 0
     # Sample
     for (LR_img, HR_img) in test_dataloader:
-        LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
-        with torch.no_grad():
-            SR_img = model(LR_img)
-            # LR_img = transforms.ToPILImage()(LR_img[0])
-            SR_img = transforms.ToPILImage()(SR_img[0])
-            # HR_img = transforms.ToPILImage()(HR_img[0])
-            # LR_img.save("output/" + args['model'] + "_LR.png")
-            SR_img.save("output/" + args['model'] + "_SR.png")
-            # HR_img.save("output/" + args['model'] + "_HR.png")
-        break
+        if cnt == sample_index:
+            LR_img, HR_img = LR_img.to(device()), HR_img.to(device())
+            with torch.no_grad():
+                SR_img = model(LR_img)
+                # LR_img = transforms.ToPILImage()(LR_img[0])
+                SR_img = transforms.ToPILImage()(SR_img[0])
+                # HR_img = transforms.ToPILImage()(HR_img[0])
+                # LR_img.save("output0/" + args['model'] + "_LR.png")
+                SR_img.save("output" + str(sample_index) + "/" + args['model'] + "_SR.png")
+                # HR_img.save("output" + str(sample_index) + "/GT.png")
+            break
+
+        cnt += 1

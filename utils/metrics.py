@@ -1,14 +1,14 @@
-import torch
+import numpy as np
 
+from skimage.metrics import structural_similarity as compare_ssim
+from skimage.metrics import peak_signal_noise_ratio as compare_psnr
 
-# from skimage.measure import compare_psnr as psnr
-# from skimage.measure import compare_ssim as ssim
 
 def calculate_PSNR(img1, img2):
-    return 10. * torch.log10(1. / torch.mean((img1 - img2) ** 2))
+    img1, img2 = np.array(img1.to("cpu")), np.array(img2.to("cpu"))
+    return compare_psnr(img1, img2, data_range=1)
 
-# def calculate_SSIM(im1, im2):
-#     isRGB = len(im1.shape) == 3 and im1.shape[-1] == 3
-#     s = ssim(im1, im2, K1=0.01, K2=0.03, gaussian_weights=True, sigma=1.5, use_sample_covariance=False,
-#              multichannel=isRGB)
-#     return s
+
+def calculate_SSIM(img1, img2):
+    img1, img2 = np.array(img1[0].permute(1, 2, 0).to("cpu")), np.array(img2[0].permute(1, 2, 0).to("cpu"))
+    return compare_ssim(img1, img2, win_size=3, data_range=1, multichannel=True)

@@ -14,3 +14,5 @@ python -m pip install --upgrade pip
 pip install pillow opencv-python tqdm
 
 pip install pyyaml
+
+pip install scikit-image
