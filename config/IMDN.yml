@@ -1,0 +1,20 @@
+input_size: 64
+output_size: 256
+
+# conv1_kernel_size: 9
+# conv2_kernel_size: 5
+# conv3_kernel_size: 5
+
+max_epoch: 20
+batch_size: 16
+learning_rate: 0.0003
+loss_fn: "L1" 
+
+scale: 4 
+
+use_pretrained: true
+# pretrained_path: "/221012007/SuperResolution/pretrained/IMDN_x4.pth" 
+pretrained_path: "D:/graduate_file/CUHK/MCE5904_Image Process & Computer Vision/SR0520/SuperResolution/pretrained/IMDN_x4.pth"
+use_checkpoint: true
+checkpoint_path: "D:/graduate_file/CUHK/MCE5904_Image Process & Computer Vision/SR0520/SuperResolution/checkpoint/IMDN.pth"
+

@@ -9,12 +9,10 @@ from models.ESPCN import ESPCN
 from models.FSRCNN import FSRCNN
 from models.MAFFSRN import MAFFSRN
 from models.RFDN import RFDN
-from models.SRCNN import SRCNN 
-from models.architecture import IMDN_AS 
-# from models import architecture
+from models.SRCNN import SRCNN
 from utils.device import device
 
-model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN", "RFDN", "MAFFSRN", "BSRN", "IMDN"]
+model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN", "RFDN", "MAFFSRN", "BSRN"]
 checkpoint_root = "checkpoint"
 
 
@@ -54,19 +52,13 @@ def initialize_model_and_optimizer(args):
         model = BSRN()
         optimizer = optim.Adam(params=model.parameters(), betas=(0.9, 0.999), eps=1e-8, lr=args['learning_rate'])
 
-    elif args['model'] == "IMDN":  
-        model = IMDN_AS(upscale=args["scale"])
-        # model = architecture.IMDN_AS(upscale=args["scale"]) 
-        optimizer = optim.Adam(model.parameters(), lr=args["learning_rate"])  
-
     if args["use_pretrained"]:
         model.load_state_dict(torch.load(args["pretrained_path"]))
 
     if args["use_checkpoint"]:
         model.load_state_dict(torch.load(args["checkpoint_path"]))
 
-    # return model.to(device()), optimizer
-    return model, optimizer
+    return model.to(device()), optimizer
 
 
 def save_best_model(model_name, best_weights):
