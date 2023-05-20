@@ -1,14 +1,12 @@
 import argparse
-import time
 
 import torch
 import yaml
 from torch.utils.data import DataLoader
-from torchvision import transforms
 from tqdm import tqdm
 
 from data.datasets import CelebA_HQ_Dataset
-from models.model_utils import initialize_model_and_optimizer
+from model_utils import initialize_model_and_optimizer
 from utils.device import device
 from utils.logger import AverageMeter
 from utils.metrics import calculate_PSNR, calculate_SSIM

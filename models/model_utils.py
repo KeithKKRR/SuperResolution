@@ -11,12 +11,11 @@ from models.MAFFSRN import MAFFSRN
 from models.RFDN import RFDN
 from models.SRCNN import SRCNN 
 from models.architecture import IMDN_AS 
-# from models import architecture
+from models import architecture
 from utils.device import device
 
 model_list = ["SRCNN", "FSRCNN", "ESPCN", "DRRN", "RFDN", "MAFFSRN", "BSRN", "IMDN"]
 checkpoint_root = "checkpoint"
-
 
 def initialize_model_and_optimizer(args):
     assert (args["model"] in model_list)
@@ -55,8 +54,8 @@ def initialize_model_and_optimizer(args):
         optimizer = optim.Adam(params=model.parameters(), betas=(0.9, 0.999), eps=1e-8, lr=args['learning_rate'])
 
     elif args['model'] == "IMDN":  
-        model = IMDN_AS(upscale=args["scale"])
-        # model = architecture.IMDN_AS(upscale=args["scale"]) 
+        # model = IMDN_AS(upscale=args["scale"])
+        model = architecture.IMDN_AS( )
         optimizer = optim.Adam(model.parameters(), lr=args["learning_rate"])  
 
     if args["use_pretrained"]:

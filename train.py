@@ -7,7 +7,7 @@ from torch.utils.data import DataLoader
 from tqdm import tqdm
 
 from data.datasets import CelebA_HQ_Dataset
-from models.model_utils import initialize_model_and_optimizer, save_best_model
+from model_utils import initialize_model_and_optimizer, save_best_model
 from utils.device import device
 from utils.logger import AverageMeter
 from utils.loss import loss_fn

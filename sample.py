@@ -6,7 +6,7 @@ from torch.utils.data import DataLoader
 from torchvision import transforms
 
 from data.datasets import CelebA_HQ_Dataset
-from models.model_utils import initialize_model_and_optimizer
+from model_utils import initialize_model_and_optimizer
 from utils.device import device
 
 if __name__ == "__main__":
@@ -21,12 +21,13 @@ if __name__ == "__main__":
 
     # dataset and dataloader
     test_dataset = CelebA_HQ_Dataset("data/test_data.txt", 64, 256, args)
+    # test_dataset = CelebA_HQ_Dataset("data/test_data.txt", 64, 256)
     test_dataloader = DataLoader(dataset=test_dataset, batch_size=1, shuffle=False)
 
     model, _ = initialize_model_and_optimizer(args)
     model.load_state_dict(torch.load(args["checkpoint_path"]))
 
-    sample_index = 8
+    sample_index = 14
     cnt = 0
     # Sample
     for (LR_img, HR_img) in test_dataloader:
